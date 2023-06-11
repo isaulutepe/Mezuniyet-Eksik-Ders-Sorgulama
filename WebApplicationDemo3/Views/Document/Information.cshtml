@@ -1,0 +1,59 @@
+﻿@using WebApplicationDemo3.Models;
+@{
+    Layout = null;
+    ViewBag.Title = "Information";
+
+}
+@model List<Ders>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Information</title>
+</head>
+<body>
+   @* <h2>Alınan Ders Kodları : </h2>*@
+    @*@if (ViewBag.Liste != null)
+        {
+            foreach (var item in ViewBag.Liste)
+            {
+                <p>@item</p>
+            }
+        }
+        else
+        {
+            <p>No PDF content available.</p>
+        }*@
+    <h1>Eksik Ders Bilgileri</h1>
+
+    @if (ViewBag.Dersler != null && ViewBag.Dersler.Count > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Ders Kodu</th>
+                    <th>Ders Adı</th>
+                    <th>Türü</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ders in ViewBag.Dersler)
+                {
+                    <tr>
+                        <td>@ders.DersKodu</td>
+                        <td>@ders.DersAdi</td>
+                        <td>@ders.Turu</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Ders bilgisi bulunamadı.</p>
+    }
+
+
+
+</body>
+</html>

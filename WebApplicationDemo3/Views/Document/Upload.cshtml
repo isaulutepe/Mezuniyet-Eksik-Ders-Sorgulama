@@ -1,0 +1,208 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            color: #fff;
+            padding: 55px 50px 0px 50px;
+            font-family: 'Lato', sans-serif;
+            background-color: #e74c3c;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            width: 50%;
+            height: 38px;
+        }
+
+        #file-name {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            background-color: #c0392b;
+            border-radius: 5px;
+        }
+
+        #file-input {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        #upload-button {
+            width: 40%;
+            height: 38px;
+            padding: 5px 5px 5px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 1vw;
+            text-transform: uppercase;
+            border: none;
+            background-color: #962d22;
+        }
+
+            #upload-button[disabled] {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+        .list {
+            display: flex;
+            width: 50%;
+            flex-direction: row;
+            margin-top: 20px;
+            option: disabled;
+            selected: none;
+        }
+
+        #calculate-button {
+            width: 39.5%;
+            height: 38px;
+            padding: 5px 5px 5px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 1vw;
+            text-transform: uppercase;
+            border: none;
+            background-color: #962d22;
+        }
+
+            #calculate-button[disabled] {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+        #myListbox {
+            border-radius: 5px;
+            padding: 10px;
+            width: 70.5%;
+            margin-right: 10px;
+            background-color: #c0392b;
+            border: none;
+            color: #E5E7E9;
+        }
+
+            #myListbox[disabled] { /*aktif değilken*/
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+        .sutunlar {
+            width: 100%;
+            display: flex;
+        }
+
+        .kutu {
+            flex: 1;
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dosya Yükle</h1>
+    <span>Lütfen yüklenecek dosyayı seçiniz</span>
+    <div class="formBase">
+        @* form kısmı *@
+        @using (Html.BeginForm("Upload", "Document", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="text" id="file-name" onclick="document.getElementById('file-input').click()" readonly>
+            <input type="file" accept="application/pdf" name="postedFile"
+                   style="display: none" id="file-input"
+                   onchange="document.getElementById('file-name').value = this.files[0].name; enableUploadButton()">
+            <input type="submit" value="Upload" id="upload-button" disabled>
+
+        }
+    </div>
+
+    <br />
+    <div style="color:green">@ViewBag.Message</div> @*Dosya Yükleme işlemi başarılı olursa verilecek mesajı tutan view bag nesnesi*@
+
+    <h3>Bölümünüzü Seçiniz</h3>
+    <div class="list">
+        <select id="myListbox" onchange="showPDF()">
+            <option value="" disabled selected>Bölüm</option>
+            <option value="pdf1">Bilgisayar Mühendisliği</option>
+            @*<option value="pdf2">Gıda Mühendisliği</option>
+            <option value="pdf3">Mimarlık</option>*@
+        </select>
+        @using (Html.BeginForm("Calculate", "Document", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="submit" value="Hesapla" id="calculate-button" disabled>
+        }
+    </div>
+    <div style="color:greenyellow;">@ViewBag.Message1</div> @*Pdf ler okundu*@
+
+
+    @*pdf lerin gösterileceği alan.*@
+    <div class="sutunlar">
+        <div class="kutu">
+            Bölüm Transkripti
+            <hr>
+            <div id="pdfContainer"></div>
+        </div>
+        <div class="kutu">
+            Kullanıcı Transkripti
+            <hr />
+            @if (!string.IsNullOrEmpty(ViewBag.PdfPath))
+            {
+                <iframe src="@Url.Content(ViewBag.PdfPath)" width="100%" height="600px"></iframe>
+            }
+        </div>
+    </div>
+    @*Seçilen pdf yi ekranda göstermek için script*@
+    <script>
+        function showPDF() {
+            var listbox = document.getElementById("myListbox");
+            var selectedValue = listbox.options[listbox.selectedIndex].value;
+            var pdfContainer = document.getElementById("pdfContainer");
+
+            if (selectedValue == "pdf1") {
+                if (@TempData["GirisDonemi"] == "21") {
+                    pdfContainer.innerHTML = '<embed src="pdf/dersler.pdf" width="100%" height="600">';
+                }
+                else if (@TempData["GirisDonemi"] == "20") {
+                    pdfContainer.innerHTML = '<embed src="pdf/dersler2.pdf" width="100%" height="600">';
+                }
+            }
+            //} else if (selectedValue == "pdf2") {
+            //    pdfContainer.innerHTML = '<embed src="pdf/example.pdf" width="100%" height="600">';
+            //} else if (selectedValue == "pdf3") {
+            //    pdfContainer.innerHTML = '<embed src="pdf/dersler.pdf" width="100%" height="600">';
+            //}
+            var dropdown = document.getElementById("myListbox");
+            var button = document.getElementById("calculate-button");
+            if (dropdown.value !== "") {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        }
+    </script>
+    <script>
+        function enableUploadButton() {
+            document.getElementById("upload-button").disabled = false;
+        }
+    </script>
+</body>
+
+</html>

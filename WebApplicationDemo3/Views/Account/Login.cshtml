@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/LoginLayout.cshtml";
+}
+<div class="w3l-signinform">
+    <!-- container -->
+    <div class="wrapper">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3_info">
+                <div style="color:greenyellow;">@ViewBag.Message1</div> @*Giriş Başarılı Mesajı*@
+                <br/>
+                <h1>Mezuniyet Sorgulama</h1>
+                <p class="sub-para">Sisteme giriş yaptıktan sonra mezun olup olamayacağını öğrenebilirsin,kaydın yokda lütfen Kayıt ol'a tıkla.</p>
+                <h2>Giriş</h2>
+                <form action="Verify" method="post">
+                    @* Buradan Verify adlı methot içine post yapılmalı o yüzden form action= Verify yaptım*@
+
+                    <div class="input-group">
+                        <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input type="email" name="Email" placeholder="yournumber@ogr.sdu.edu.tr" pattern="^[lLoOyY].+ogr.sdu.edu.tr" required="">
+                        @*Mail adresinin kontrolü, kullanıcı l,L,o,O,y,Y harfleridnen birisiyle maile başlamak zorundadır.
+                            l-L : Lisans
+                            o-O : Önlisans
+                            y-Y : Yüksek Lisans
+                            ardındana okul numarası girilmeli ve mail @ogr.sdu.edu.tr uzantısı ile tamamlanmalıdır.*@
+                    </div>
+
+                    <div class="input-group two-groop">
+                        <span><i class="fa fa-key" aria-hidden="true"></i></span>
+                        <input type="Password" name="Password" placeholder="Sifre" required="">
+                    </div>
+                    <div style="color:yellow;">@ViewBag.Message</div> @*Hata Mesajı*@
+                    <br/>
+                    <div class="form-row bottom">
+                        <div class="form-check">
+                            <input type="checkbox" id="remenber" name="remenber" value="remenber">
+                            <label for="remenber"> Beni Hatırla?</label>
+                        </div>
+                        <a href="#url" class="forgot">Şifremi Unuttum?</a>
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit">Giriş</button>
+                </form>
+
+                <p class="account">Henüz bir hesabın yok mu? <a href="SingIn">Kayıt Ol</a></p>
+            </div>
+        </div>
+        <!-- //main content -->
+    </div>
+    <!-- //container -->
+    <!-- footer -->
+    <div class="footer">
+        <p>
+            &copy; Sdu Mezuniyet Durum Sorgulama | Design by <a href="ulutepe42@gmail.com"
+                                                                target="blank">İsa Ulutepe</a>
+        </p>
+    </div>
+    <!-- footer -->
+</div>
+
+
+

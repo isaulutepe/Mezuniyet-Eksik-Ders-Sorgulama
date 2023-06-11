@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Sing In";
+    Layout = "~/Views/SingInLayout.cshtml";
+}
+
+<div class="w3l-signinform">
+    <!-- container -->
+    <div class="wrapper">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3_info">
+                <h1>Tekrar Hoşgeldin</h1>
+                <p class="sub-para">Lütfen istenilen verileri eksiksiz ve doğru bir şekilde doldurunuz.</p>
+                <h2>Hesap Oluştur</h2>
+                <form action="VerifySingIn" method="post">
+                    <div class="input-group">
+                        <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        <input type="email" name="Email" placeholder="id@ogr.sdu.edu.tr" pattern="^[lLoOyY].+ogr.sdu.edu.tr" required="">
+                    </div>
+                    <div class="input-group two-groop">
+                        <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input type="text" name="Name" placeholder="Name" required="">
+                    </div>
+                    <div class="input-group two-groop">
+                        <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input type="text" name="Surname" placeholder="Surname" required="">
+                    </div>
+                    <div class="input-group two-groop">
+                        <span><i class="fa fa-key" aria-hidden="true"></i></span>
+                        <input type="Password" id="password" name="Password" placeholder="Password" required="">
+                    </div>
+                    <div class="input-group three-groop">
+                        <span><i class="fa fa-key" aria-hidden="true"></i></span>
+                        <input type="Password" id="confirm_password" name="Password" placeholder="Password" required="">
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit">Üye Ol</button>
+                    <br/>
+                    <div style="color:yellow;">@ViewBag.Message</div> @*Hata Mesajı*@
+                </form>
+            </div>
+        </div>
+        <!-- //main content -->
+    </div>
+    <!-- //container -->
+    <!-- footer -->
+    <div class="footer">
+        <p>
+            &copy; Sdu Mezuniyet Durum Sorgulama | Design by <a href="ulutepe42@gmail.com"
+                                                                target="blank">İsa Ulutepe</a>
+        </p>
+    </div>
+    <!-- footer -->
+</div>
+<script>
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Şiferler Eşleşmemektedir.");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+</script>
+
+
